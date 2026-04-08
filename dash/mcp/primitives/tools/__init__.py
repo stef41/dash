@@ -16,10 +16,11 @@ from mcp.types import CallToolResult, ListToolsResult
 
 from dash.mcp.types import ToolNotFoundError
 
+from . import tool_background_tasks as _background_tasks
 from . import tool_get_dash_component as _get_component
 from . import tools_callbacks as _callbacks
 
-_TOOL_MODULES = [_callbacks, _get_component]
+_TOOL_MODULES = [_callbacks, _get_component, _background_tasks]
 
 
 def list_tools() -> ListToolsResult:
@@ -30,12 +31,13 @@ def list_tools() -> ListToolsResult:
     return ListToolsResult(tools=tools)
 
 
-def call_tool(tool_name: str, arguments: dict[str, Any]) -> CallToolResult:
+def call_tool(
+    tool_name: str, arguments: dict[str, Any], task: dict | None = None
+) -> CallToolResult:
     """Dispatch a tools/call request by tool name."""
     for mod in _TOOL_MODULES:
         if tool_name in mod.get_tool_names():
-            result = mod.call_tool(tool_name, arguments)
-            return result
+            return mod.call_tool(tool_name, arguments, task=task)
     raise ToolNotFoundError(
         f"Tool not found: {tool_name}."
         " The app's callbacks may have changed."

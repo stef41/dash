@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from .description_background_callbacks import background_callback_description
 from .description_docstring import callback_docstring
 from .description_outputs import output_summary
 
@@ -23,6 +24,7 @@ if TYPE_CHECKING:
 _SOURCES = [
     output_summary,
     callback_docstring,
+    background_callback_description,
 ]
 
 

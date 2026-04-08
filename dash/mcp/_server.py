@@ -42,6 +42,7 @@ from dash.mcp.primitives import (
     list_tools,
     read_resource,
 )
+from dash.mcp.tasks import get_task, get_task_result, cancel_task
 from dash.mcp.primitives.tools.callback_adapter_collection import (
     CallbackAdapterCollection,
 )
@@ -238,11 +239,16 @@ def _process_mcp_message(data: dict[str, Any]) -> dict[str, Any] | None:
         "initialize": _handle_initialize,
         "tools/list": lambda: list_tools(),
         "tools/call": lambda: call_tool(
-            params.get("name", ""), params.get("arguments", {})
+            tool_name=params.get("name", ""),
+            arguments=params.get("arguments", {}),
+            task=params.get("task"),
         ),
         "resources/list": lambda: list_resources(),
         "resources/templates/list": lambda: list_resource_templates(),
         "resources/read": lambda: read_resource(params.get("uri", "")),
+        "tasks/get": lambda: get_task(task_id=params.get("taskId", "")),
+        "tasks/result": lambda: get_task_result(task_id=params.get("taskId", "")),
+        "tasks/cancel": lambda: cancel_task(task_id=params.get("taskId", "")),
     }
 
     try:

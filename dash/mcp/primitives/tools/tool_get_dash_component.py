@@ -54,7 +54,7 @@ def _build_tool() -> Tool:
     )
 
 
-def call_tool(tool_name: str, arguments: dict[str, Any]) -> CallToolResult:
+def call_tool(tool_name: str, arguments: dict[str, Any], task: dict | None = None) -> CallToolResult:
     comp_id = arguments.get("component_id", "")
     if not comp_id:
         raise ValueError("component_id is required")
