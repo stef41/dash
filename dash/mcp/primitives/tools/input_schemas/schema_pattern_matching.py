@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from dash.layout import find_matching_components, _WILDCARD_VALUES
+from dash._layout_utils import find_matching_components, _WILDCARD_VALUES
 from dash.mcp.types import MCPInput
 
 
